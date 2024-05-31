@@ -14,11 +14,11 @@ app.get("/arbitrage", (request, response) => {
     //const url = "https://www.google.co.in/search?q=tata%20Motors%20share%20price";
     const url     = request.query.urlToFetch || "";
     //const options    = request.body || {};
-    const options = request.options || {};
+    //const options = request.options || {};
 
 
     console.log(`Received URL: ${url}`);
-    console.log(`Received Options: ${JSON.stringify(options)}`);
+    //console.log(`Received Options: ${JSON.stringify(options)}`);
     let data = {};
     // const options = {
     //     headers: {
@@ -28,7 +28,7 @@ app.get("/arbitrage", (request, response) => {
 
     async function fetchStream() {
         try {
-            let res = await fetch(url, options)
+            let res = await fetch(url)
             console.log("streaming started--")
             const streamReader = res.body.pipeThrough(new TextDecoderStream()).getReader();
 
