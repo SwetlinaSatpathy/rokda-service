@@ -12,7 +12,7 @@ app.get("/arbitrage", (request, response) => {
     //const url = "https://www.moneycontrol.com/stocks/fno/marketstats/arbitrage/futures-spot-next-1.html";
     //const url = "https://www.rbi.org.in/Scripts/BS_NSDPDisplay.aspx?param=4#";
     //const url = "https://www.google.co.in/search?q=tata%20Motors%20share%20price";
-    const url     = request.url.slice(1);
+    const url     = request.body?.url || "";
     const options    = request.body || {};
     //const options = request.options || {};
 
