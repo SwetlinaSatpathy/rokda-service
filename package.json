@@ -1,0 +1,24 @@
+{
+  "name": "rokda-service",
+  "version": "1.0.0",
+  "description": "money money",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwetlinaSatpathy/rokda-service.git"
+  },
+  "author": "fodu trader",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SwetlinaSatpathy/rokda-service/issues"
+  },
+  "homepage": "https://github.com/SwetlinaSatpathy/rokda-service#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "zlib": "^1.0.5"
+  }
+}
