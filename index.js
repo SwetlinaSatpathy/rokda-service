@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 4000;
 app.get("/arbitrage", (request, response) => {
     //const url = "https://www.moneycontrol.com/stocks/fno/marketstats/arbitrage/futures-spot-next-1.html";
     //const url = "https://www.rbi.org.in/Scripts/BS_NSDPDisplay.aspx?param=4#";
-    const url = "google.com/search?q=tata%20Motors%20share%20price";
+    const url = "https://www.google.com/search?q=tata%20Motors%20share%20price";
     let data = {};
     const options = {
         headers: {
