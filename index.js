@@ -1,6 +1,6 @@
 const express = require("express");
-const {TextDecoderStream} = required ("web-streams-polyfill");
-//const { StringDecoder } = require("string_decoder");
+//const {TextDecoderStream} = required ("web-streams-polyfill");
+const { StringDecoder } = require("string_decoder");
 //const fetch = require("node-fetch"); // Import the fetch library
 const zlib = require('zlib');
 const app = express();
