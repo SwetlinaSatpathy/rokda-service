@@ -4,7 +4,9 @@
   "description": "money money",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "npm run test",
+    "start": "node index.js",
+    "build": "node index.js"
   },
   "repository": {
     "type": "git",
