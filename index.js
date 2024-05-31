@@ -41,7 +41,8 @@ app.get("/webBuffer", (request, response) => {
 // Endpoint for processing POST requests
 app.post("/retrieve", (request, response) => {
     const { url, payload } = request.body;
-  
+    console.log (`${url} & Payload: ${payload}`)
+    console.log(`${request}`)
     try {
         if (!url || !payload) {
             return response.status(400).send("Missing required parameters: url and payload");
