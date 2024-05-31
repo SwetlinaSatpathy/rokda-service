@@ -1,36 +1,24 @@
-const express = require("express");
-//const {TextDecoderStream} = required ("web-streams-polyfill");
+
+//const {TextDecoderStream} = required ("web-streams-polyfill");const express = require("express");
+//const fetch = require("node-fetch");
 const { StringDecoder } = require("string_decoder");
-//const fetch = require("node-fetch"); // Import the fetch library
 const zlib = require('zlib');
 const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-app.get("/arbitrage", (request, response) => {
-    //const url = "https://www.moneycontrol.com/stocks/fno/marketstats/arbitrage/futures-spot-next-1.html";
-    //const url = "https://www.rbi.org.in/Scripts/BS_NSDPDisplay.aspx?param=4#";
-    //const url = "https://www.google.co.in/search?q=tata%20Motors%20share%20price";
-    const url     = request.query.urlToFetch || "";
-    //const options    = request.body || {};
-    //const options = request.options || {};
-
+// Endpoint for processing webpages
+app.get("/webBuffer", (request, response) => {
+    const url = request.query.urlToFetch || "";
 
     console.log(`Received URL: ${url}`);
-    //console.log(`Received Options: ${JSON.stringify(options)}`);
-    let data = {};
-    // const options = {
-    //     headers: {
-    //         "Content-Type": "text/html",
-    //     },
-    // };
 
     async function fetchStream() {
         try {
-            let res = await fetch(url)
+            let responseFetched = await fetch(url)
             console.log("streaming started--")
-            const streamReader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+            const streamReader = responseFetched.body.pipeThrough(new TextDecoderStream()).getReader();
 
             while(true){
                 const {done, value} = await streamReader.read();
@@ -48,6 +36,28 @@ app.get("/arbitrage", (request, response) => {
         }
     }
     fetchStream()
+});
+
+// Endpoint for processing POST requests
+app.post("/retrieve", (request, response) => {
+    const { url, payload } = request.body;
+  
+    try {
+        if (!url || !payload) {
+            return response.status(400).send("Missing required parameters: url and payload");
+        }
+    
+        const fetchedResponse = fetch(url, payload);
+    
+        if (!fetchedResponse.ok) {
+          throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
+        }
+        response.send(fetchedResponse);
+        
+    } catch (error) {
+        console.error(`Error processing request: ${error}`);
+        response.status(500).send(`Error processing the URL/Payload: ${error}`);
+    }
 });
 
 app.listen(PORT, () => {
