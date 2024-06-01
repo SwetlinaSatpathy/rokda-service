@@ -43,7 +43,7 @@ app.get("/webBuffer", (request, response) => {
 app.use(bodyParser.json());
 // Endpoint for processing POST requests
 app.post("/retrieve", async (request, response) => {
-    const { url, payload } = request.body;
+    const { url, payload } = JSON.parse(request.body);
     const headers = request.headers;
     const parsedPayload = JSON.parse(payload);
     console.log (`Url: ${url} & Payload: ${payload}`)
