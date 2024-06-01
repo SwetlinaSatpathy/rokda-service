@@ -57,7 +57,7 @@ app.post("/retrieve", async (request, response) => {
     try {
         const fetchedResponse = await axios.post(url, payload, {headers});
         
-        return response.json(fetchedResponse);
+        return response.send(fetchedResponse);
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);
