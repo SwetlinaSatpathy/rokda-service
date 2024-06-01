@@ -41,8 +41,8 @@ app.get("/webBuffer", (request, response) => {
 // Endpoint for processing POST requests
 app.post("/retrieve", (request, response) => {
     //const { url, payload } = request.body;
-    let url = request.payload['url'];
-    let payload = request.payload['payload']
+    let url = request.body.url;
+    let payload = request.body.payload;
     console.log (`${url} & Payload: ${payload}`)
     console.log(`${request}`)
     try {
