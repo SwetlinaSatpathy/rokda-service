@@ -54,8 +54,8 @@ app.post("/retrieve", async (request, response) => {
     console.log (`Headers: ${JSON.stringify(request.headers)}`)
     try {
         const fetchedResponse = await axios.post(url, payload);
-        console.log(`Response: ${fetchedResponse}`)
-        console.log(`Response: ${JSON.stringify(fetchedResponse)}`)
+        console.log(`Response: ${fetchedResponse.data}`)
+        console.log(`Response: ${JSON.stringify(fetchedResponse.data)}`)
         // if (!url || !payload) {
         //     //return response.status(400).send("Missing required parameters: url and payload");
         //     console.log(`no URL & no payload`)
@@ -68,8 +68,8 @@ app.post("/retrieve", async (request, response) => {
         // if (!fetchedResponse.ok) {
         //   throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
         // }
-        //return response.json({data: fetchedResponse.data, message: "Data received and processed"});
-        return response.send(fetchedResponse);
+        return response.json({data: fetchedResponse.data, message: "Data received and processed"});
+        //return response.send(fetchedResponse);
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);
