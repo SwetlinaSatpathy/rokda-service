@@ -22,7 +22,7 @@ app.get("/webBuffer", (request, response) => {
         try {
             const url = request.query.urlToFetch || "";
             console.log(`URL: ${url}`);
-            const headers = userAgents[Math.floor(Math.random()*userAgents.length)];
+            const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
 
             let responseFetched = await fetch(url, headers)
             console.log("streaming started-->")
