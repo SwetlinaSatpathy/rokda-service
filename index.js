@@ -43,15 +43,16 @@ app.get("/webBuffer", (request, response) => {
 app.use(bodyParser.json());
 // Endpoint for processing POST requests
 app.post("/retrieve", async (request, response) => {
-    const { url, payload } = JSON.parse(request.body);
+    const { url, payload } = request.body;
     const headers = request.headers;
-    const parsedPayload = JSON.parse(payload);
-    console.log (`Url: ${url} & Payload: ${payload}`)
-    console.log(`Request: ${request}`)
-    console.log(`Parsed Payload: ${parsedPayload}`)
-    console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
+    // const parsedPayload = JSON.parse(payload);
+    // console.log (`Url: ${url} & Payload: ${payload}`)
+    // console.log(`Request: ${request}`)
+    // console.log(`Parsed Payload: ${parsedPayload}`)
+    // console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
+    console.log (`Body: ${JSON.stringify(request.body)}`)
     try {
-        const fetchedResponse = await axios.post(url, parsedPayload, {
+        const fetchedResponse = await axios.post(url, payload, {
             headers
         });
 
