@@ -1,6 +1,8 @@
 //const fetch = require("node-fetch");
 //const {TextDecoderStream} = require ("web-streams-polyfill");
 const { StringDecoder } = require("string_decoder");
+const bodyParser = require('body-parser');
+const axios = require('axios');
 const express = require("express");
 const zlib = require('zlib');
 const app = express();
@@ -38,29 +40,33 @@ app.get("/webBuffer", (request, response) => {
     fetchStream()
 });
 
+app.use(bodyParser.json());
 // Endpoint for processing POST requests
-app.post("/retrieve", (request, response) => {
-    //const { url, payload } = request.body;
-    let url = request.body.url;
-    let payload = request.body.payload;
-    console.log (`${url} & Payload: ${payload}`)
-    console.log(`${request}`)
+app.post("/retrieve", async (request, response) => {
+    const { url, payload } = request.body;
+    const headers = request.headers;
+    const parsedPayload = JSON.parse(payload);
+    console.log (`Url: ${url} & Payload: ${payload}`)
+    console.log(`Request: ${request}`)
+    console.log(`Parsed Payload: ${parsedPayload}`)
     try {
-        if (!url || !payload) {
-            //return response.status(400).send("Missing required parameters: url and payload");
-            console.log(`no URL & no payload`)
-        } else{
-            url = request.payload.url;
-            url = request.payload.payload;
-            console.log (`${url} & Payload: ${payload}`)
-        }
+        const fetchedResponse = await axios.post(url, parsedPayload, {
+            headers
+        });
+
+        // if (!url || !payload) {
+        //     //return response.status(400).send("Missing required parameters: url and payload");
+        //     console.log(`no URL & no payload`)
+        // } else{
+        //     url = request.payload.url;
+        //     url = request.payload.payload;
+        //     console.log (`${url} & Payload: ${payload}`)
+        // }
     
-        const fetchedResponse = fetch(url, payload);
-    
-        if (!fetchedResponse.ok) {
-          throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
-        }
-        response.send(fetchedResponse);
+        // if (!fetchedResponse.ok) {
+        //   throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
+        // }
+        return response.json({data: fetchedResponse.data, message: "Data received and processed"});
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);

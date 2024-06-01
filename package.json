@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/SwetlinaSatpathy/rokda-service#readme",
   "dependencies": {
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
     "zlib": "^1.0.5"
