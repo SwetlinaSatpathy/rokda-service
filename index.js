@@ -1,5 +1,3 @@
-//const fetch = require("node-fetch");
-//const {TextDecoderStream} = require ("web-streams-polyfill");
 const { StringDecoder } = require("string_decoder");
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -19,16 +17,15 @@ const userAgents = [
 app.use(express.json());
 // Endpoint for processing webpages
 app.get("/webBuffer", (request, response) => {
-    const url = request.query.urlToFetch || "";
-
-    console.log(`Received URL: ${url}`);
 
     async function fetchStream() {
         try {
+            const url = request.query.urlToFetch || "";
+            console.log(`URL: ${url}`);
             const headers = userAgents[Math.floor(Math.random()*userAgents.length)];
 
             let responseFetched = await fetch(url, headers)
-            console.log("streaming started--")
+            console.log("streaming started-->")
             const streamReader = responseFetched.body.pipeThrough(new TextDecoderStream()).getReader();
 
             while(true){
@@ -36,7 +33,7 @@ app.get("/webBuffer", (request, response) => {
                 if(done){
                     break;
                 }
-                console.log("chunk received--", value)
+                console.log("chunk received=>", value)
                 response.write(value)
             }
             console.log("streaming complete")
@@ -52,9 +49,9 @@ app.get("/webBuffer", (request, response) => {
 app.use(bodyParser.json());
 // Endpoint for processing POST requests
 app.post("/retrieve", async (request, response) => {
-    const { url, payload } = request.body;
-    const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
     try {
+        const { url, payload } = request.body;
+        const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
         const fetchedResponse = await axios.post(url, payload, {headers});
         const responseData = fetchedResponse.data;
         
