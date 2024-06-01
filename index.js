@@ -55,11 +55,7 @@ app.post("/retrieve", async (request, response) => {
     const { url, payload } = request.body;
     const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
     try {
-        const fetchedResponse = await axios.post(url, payload,{headers});
-
-        console.log(`Response: ${fetchedResponse.data}`)
-        console.log(`Response: ${JSON.stringify(fetchedResponse.data)}`)
-        console.log(`Headers: ${JSON.stringify(headers)}`)
+        const fetchedResponse = await axios.post(url, payload, {headers});
         
         return response.json(fetchedResponse);
         
