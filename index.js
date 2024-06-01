@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const express = require("express");
 const zlib = require('zlib');
+const { json } = require("body-parser");
+const { query } = require("express");
 const app = express();
 const PORT = process.env.PORT || 4000;
 const userAgents = [
@@ -20,9 +22,15 @@ app.get("/webBuffer", (request, response) => {
 
     async function fetchStream() {
         try {
-            const url = request.query.urlToFetch || "";
-            console.log(`URL: ${url}`);
             const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
+            let url = request.query.urlToFetch || "";
+            Object.keys(request.query).forEach((key) => {
+
+                if(key !=="urlToFetch"){
+                    url = `${url}&${key}=${request.query[key]}`
+                }     
+            })
+            console.log(`URL: ${url}`);
 
             let responseFetched = await fetch(url, headers)
             console.log("streaming started-->")
@@ -33,10 +41,10 @@ app.get("/webBuffer", (request, response) => {
                 if(done){
                     break;
                 }
-                console.log("chunk received=>", value)
+                console.log("<=chunk received=>")
                 response.write(value)
             }
-            console.log("streaming complete")
+            console.log("<--streaming complete")
             response.end()
         }catch (error){
             console.error(`Error occured: ${error}`);
