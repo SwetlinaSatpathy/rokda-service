@@ -51,11 +51,13 @@ app.post("/retrieve", async (request, response) => {
     // console.log(`Parsed Payload: ${parsedPayload}`)
     // console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
     console.log (`Body: ${JSON.stringify(request.body)}`)
+    console.log (`Body: ${JSON.stringify(request.headers)}`)
     try {
         const fetchedResponse = await axios.post(url, payload, {
             headers
         });
-
+        console.log(`Response: ${fetchedResponse}`)
+        console.log(`Response: ${JSON.stringify(fetchedResponse)}`)
         // if (!url || !payload) {
         //     //return response.status(400).send("Missing required parameters: url and payload");
         //     console.log(`no URL & no payload`)
