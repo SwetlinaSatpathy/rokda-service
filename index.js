@@ -49,6 +49,7 @@ app.post("/retrieve", async (request, response) => {
     console.log (`Url: ${url} & Payload: ${payload}`)
     console.log(`Request: ${request}`)
     console.log(`Parsed Payload: ${parsedPayload}`)
+    console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
     try {
         const fetchedResponse = await axios.post(url, parsedPayload, {
             headers
