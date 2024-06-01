@@ -51,11 +51,9 @@ app.post("/retrieve", async (request, response) => {
     // console.log(`Parsed Payload: ${parsedPayload}`)
     // console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
     console.log (`Body: ${JSON.stringify(request.body)}`)
-    console.log (`Body: ${JSON.stringify(request.headers)}`)
+    console.log (`Headers: ${JSON.stringify(request.headers)}`)
     try {
-        const fetchedResponse = await axios.post(url, payload, {
-            headers
-        });
+        const fetchedResponse = await axios.post(url, payload);
         console.log(`Response: ${fetchedResponse}`)
         console.log(`Response: ${JSON.stringify(fetchedResponse)}`)
         // if (!url || !payload) {
@@ -70,7 +68,8 @@ app.post("/retrieve", async (request, response) => {
         // if (!fetchedResponse.ok) {
         //   throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
         // }
-        return response.json({data: fetchedResponse.data, message: "Data received and processed"});
+        //return response.json({data: fetchedResponse.data, message: "Data received and processed"});
+        return response.send(fetchedResponse);
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);
