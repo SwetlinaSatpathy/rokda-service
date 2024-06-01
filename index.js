@@ -56,8 +56,9 @@ app.post("/retrieve", async (request, response) => {
     const headers = {'User-Agent' : userAgents[Math.floor(Math.random()*userAgents.length)]};
     try {
         const fetchedResponse = await axios.post(url, payload, {headers});
+        const responseData = fetchedResponse.data;
         
-        return response.send(fetchedResponse);
+        return response.json(responseData);
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);
