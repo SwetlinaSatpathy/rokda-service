@@ -6,10 +6,17 @@ const axios = require('axios');
 const express = require("express");
 const zlib = require('zlib');
 const app = express();
-app.use(express.json());
-
 const PORT = process.env.PORT || 4000;
+const userAgents = [
+    'Mozilla/5.0 (Linux; Android 13; Pixel 6 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1 Mobile/15E148 Safari/604.1'
+];
 
+app.use(express.json());
 // Endpoint for processing webpages
 app.get("/webBuffer", (request, response) => {
     const url = request.query.urlToFetch || "";
@@ -18,7 +25,9 @@ app.get("/webBuffer", (request, response) => {
 
     async function fetchStream() {
         try {
-            let responseFetched = await fetch(url)
+            const headers = userAgents[Math.floor(Math.random()*userAgents.length)];
+            
+            let responseFetched = await fetch(url, headers)
             console.log("streaming started--")
             const streamReader = responseFetched.body.pipeThrough(new TextDecoderStream()).getReader();
 
@@ -44,32 +53,15 @@ app.use(bodyParser.json());
 // Endpoint for processing POST requests
 app.post("/retrieve", async (request, response) => {
     const { url, payload } = request.body;
-    const headers = request.headers;
-    // const parsedPayload = JSON.parse(payload);
-    // console.log (`Url: ${url} & Payload: ${payload}`)
-    // console.log(`Request: ${request}`)
-    // console.log(`Parsed Payload: ${parsedPayload}`)
-    // console.log(`BODY: ${JSON.stringify(parsedPayload)}`);
-    console.log (`Body: ${JSON.stringify(request.body)}`)
-    console.log (`Headers: ${JSON.stringify(request.headers)}`)
+    const headers = userAgents[Math.floor(Math.random()*userAgents.length)];
     try {
-        const fetchedResponse = await axios.post(url, payload);
+        const fetchedResponse = await axios.post(url, payload,{headers});
+
         console.log(`Response: ${fetchedResponse.data}`)
         console.log(`Response: ${JSON.stringify(fetchedResponse.data)}`)
-        // if (!url || !payload) {
-        //     //return response.status(400).send("Missing required parameters: url and payload");
-        //     console.log(`no URL & no payload`)
-        // } else{
-        //     url = request.payload.url;
-        //     url = request.payload.payload;
-        //     console.log (`${url} & Payload: ${payload}`)
-        // }
-    
-        // if (!fetchedResponse.ok) {
-        //   throw new Error(`Error fetching target URL: ${url} - Status: ${fetchedResponse.status}`);
-        // }
-        return response.json({data: fetchedResponse.data, message: "Data received and processed"});
-        //return response.send(fetchedResponse);
+        console.log(`Headers: ${JSON.stringify(headers)}`)
+        
+        return response.json(fetchedResponse);
         
     } catch (error) {
         console.error(`Error processing request: ${error}`);
